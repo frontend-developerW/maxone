@@ -133,7 +133,22 @@ body {
     height: 2.5vw;
     cursor: pointer;
 }
-
+@media(max-width:768px){
+    .swiper-slide.swiper-slide-next, .swiper-slide.swiper-slide-prev{
+        opacity: 0;
+    }
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction{
+        bottom: -1vw!important;
+    }
+    .card svg{
+        width: 4.5vw;
+        height: 4.5vw;
+    }
+    .card.offer svg{
+        width: 8.5vw;
+        height: 8.5vw;
+    }
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

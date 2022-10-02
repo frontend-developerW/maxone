@@ -1,134 +1,151 @@
-import React from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import Card from "../components/Card";
-import { categorys } from "../utils";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Cocie } from "../components/Svgs";
 import { Link } from "react-router-dom";
+import {
+  getBestProducts,
+  getCategorys,
+  getProducts,
+  getSliders
+} from "../requests";
+import { useLanguage } from "../redux/selectors";
 function Home() {
-  let slides = [
+  const [products, setProducts] = useState([]);
+  const [categorys, setCategorys] = useState([]);
+  const [bestProducts, setBestProducts] = useState([]);
+  const [sliders, setSliders] = useState([]);
+  const [page, setPage] = useState(8);
+  const { currentLang, language, searchValue } = useLanguage();
+  const getData = useCallback(async () => {
+    try {
+      const product = await getProducts();
+      setProducts(product?.data);
+      const category = await getCategorys();
+      setCategorys(category?.data);
+      const bestProduct = await getBestProducts();
+      setBestProducts(bestProduct?.data);
+      const slider = await getSliders();
+      setSliders(slider?.data);
+    } catch (e) {
+      console.log("Error", e);
+    }
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  let slides = sliders.map((slider) => (
     <div className="mt-[8vw] mb-[5vw]">
-      <div className="flex bg-[#004B99] w-[80vw] m-auto p-[3vw] rounded-[2vw] relative min-h-[25vw]">
+      <div className="flex bg-[#004B99] md:h-auto h-[35vw] md:w-[80vw] w-[90vw] m-auto p-[3vw] rounded-[2vw] relative min-h-[25vw]">
         <div className="flex flex-col">
-          <h1 className="m-bold text-center text-[#ffffff] text-[3vw] ">
-            Nokia 1510
+          <h1 className="m-bold text-left text-[#ffffff] md:text-[3vw] text-[6vw] md:w-[100%] w-[60vw] ">
+            {slider?.[`name_${currentLang}`]}
           </h1>
-          <p className="text-[#fff] text-[1.4vw]">
-            Qulaylikni Nokia1510 bilan his qiling
+          <p className="text-[#fff] md:text-[1.4vw] text-[2.3vw]  whitespace-nowrap">
+            {slider?.[`description_${currentLang}`]}
           </p>
-          
-          <a href="#" className="text-[#ffffff9f] text-[1.4vw] mt-[6vw]">
-            Batafsil o`qish
+
+          <a
+            href="#"
+            className="text-[#ffffff9f]  md:text-[1.4vw] text-[2.3vw] md:mt-[6vw] mt-[3vw]"
+          >
+            {language["8"]}
           </a>
         </div>
         <img
-          src={require("../assets/img/nokia.png")}
-          className="absolute bottom-0 right-[3vw] w-[25vw]"
-          alt="1"
-        />
-      </div>
-    </div>,
-    <div className="mt-[8vw] mb-[5vw]">
-      <div className="flex bg-[#004B99] w-[80vw] m-auto p-[3vw] rounded-[2vw] relative min-h-[25vw]">
-        <div className="flex flex-col">
-          <h1 className="m-bold text-center text-[#ffffff] text-[3vw] ">
-            Nokia 1510
-          </h1>
-          <p className="text-[#fff] text-[1.4vw]">
-            Qulaylikni Nokia1510 bilan his qiling
-          </p>
-          
-          <a href="#" className="text-[#ffffff9f] text-[1.4vw] mt-[6vw]">
-            Batafsil o`qish
-          </a>
-        </div>
-        <img
-          src={require("../assets/img/nokia.png")}
-          className="absolute bottom-0 right-[3vw] w-[25vw]"
-          alt="1"
-        />
-      </div>
-    </div>,
-    <div className="mt-[8vw] mb-[5vw]">
-      <div className="flex bg-[#004B99] w-[80vw] m-auto p-[3vw] rounded-[2vw] relative min-h-[25vw]">
-        <div className="flex flex-col">
-          <h1 className="m-bold text-center text-[#ffffff] text-[3vw] ">
-            Nokia 1510
-          </h1>
-          <p className="text-[#fff] text-[1.4vw]">
-            Qulaylikni Nokia1510 bilan his qiling
-          </p>
-          
-          <a href="#" className="text-[#ffffff9f] text-[1.4vw] mt-[6vw]">
-            Batafsil o`qish
-          </a>
-        </div>
-        <img
-          src={require("../assets/img/nokia.png")}
-          className="absolute bottom-0 right-[3vw] w-[25vw]"
+          src={slider?.image}
+          className="absolute bottom-0 right-[3vw] md:w-[25vw] w-[33vw]"
           alt="1"
         />
       </div>
     </div>
-  ];
-  return (
+  ));
+  window.onscroll = function () {
+    if (window.scrollY + 1200 > document.body.offsetHeight) {
+      setPage(page + 4);
+    }
+  };
+  return searchValue.length > 4 ? (
+    <div className="grid justify-between p-[7vw] gap-[2vw] grid-cols-4 pt-0">
+      {products
+        .slice(0, page)
+        ?.map(
+          (item, i) =>
+            item[`name_${currentLang}`].includes(searchValue) && (
+              <Card data={item} key={i} />
+            )
+        )}
+    </div>
+  ) : (
     <div>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
       >
-        {slides.map((item) => (
-          <SwiperSlide>{item}</SwiperSlide>
+        {slides.map((item, i) => (
+          <SwiperSlide key={i}>{item}</SwiperSlide>
         ))}
       </Swiper>
-      <h1 className="m-bold text-center text-[#006BC5] text-[3vw]">
-        Katigoriyalar
+      <h1 className="m-bold md:mt-0 mt-[5vw] text-center text-[#006BC5] md:text-[3vw] text-[5vw]">
+        {language["9"]}
       </h1>
-      <div className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] grid-cols-4">
-        {categorys.map((item) => (
-          <Link to='/brands'>
+      <div className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] md:grid-cols-4 grid-cols-3">
+        {categorys?.map((item, i) => (
+          <Link to="/brands" key={i}>
             <div className="flex flex-col items-center cursor-pointer">
-              {item.icon}
-              <p className="mt-[1vw] text-[#0066BE] text-[1.3vw]">
-                {item.name}
+              <img
+                src={`https://maxone.abba.uz${
+                  item?.image || "/files/111_1aBNoct.png"
+                }`}
+                className={
+                  "md:w-[13vw] md:h-[13vw] w-[17vw] h-[17vw] object-cover rounded-[15vw]"
+                }
+                alt=""
+              />
+              <p className="mt-[1vw] text-[#0066BE] md:text-[1.3vw] text-[2.3vw]">
+                {item?.[`name_${currentLang}`]}
               </p>
             </div>
           </Link>
         ))}
       </div>
-      <div className="shadow flex items-center gap-[1vw] bg-[#fff] p-[.5vw] rounded-[4vw] w-[32vw] justify-between m-auto mb-[4vw]">
-        <Cocie />
-        <p className="n-regular text-[1.2vw] text-[#004B99]">
-          This website use cookies. Learn moree{" "}
-        </p>
-        <button className="bg-[#004B99] n-regular p-[.2vw] w-[4vw] text-[#fff] rounded-[3vw]">
-          ok
-        </button>
+      {/* <div className="shadow flex items-center gap-[1vw] bg-[#fff] p-[.5vw] rounded-[4vw] w-[32vw] justify-between m-auto mb-[4vw]">
+     <Cocie />
+     <p className="n-regular text-[1.2vw] text-[#004B99]">
+       This website use cookies. Learn moree{" "}
+     </p>
+     <button className="bg-[#004B99] n-regular p-[.2vw] w-[4vw] text-[#fff] text-[1.2vw] rounded-[3vw]">
+       ok
+     </button>
+   </div> */}
+      <div className="px-[12vw]">
+        <h1 className="m-bold text-center text-[#006BC5] md:text-[3vw] text-[5vw] capitalize">
+          {language["w"]}
+        </h1>
       </div>
-      <h1 className="m-bold text-center text-[#006BC5] text-[3vw]">
-        Best seller tovarlar
-      </h1>
-      <div className="p-[7vw] pt-0">
-        <div className="grid justify-between p-[3vw] bg-[#9DCAF8] gap-[2vw] grid-cols-4 rounded-[3vw]">
-          {[1, 2, 3, 4].map((item) => (
-            <Card />
-          ))}
+      {bestProducts.length > 1 && (
+        <div className="p-[7vw] pt-0">
+          <div className="grid justify-between md:p-[3vw] p-[9vw] bg-[#9dcbf891] md:gap-[2vw] gap-[5vw] md:grid-cols-4 grid-cols-2 rounded-[3vw]">
+            {bestProducts?.map((item, i) => (
+              <Card key={i} data={item} />
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="grid justify-between p-[7vw] gap-[2vw] grid-cols-4 pt-0">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((item) => (
-          <Card />
+      )}
+      <div className="grid justify-between p-[7vw] gap-[2vw] md:grid-cols-4 grid-cols-2 pt-0">
+        {products.slice(0, page)?.map((item, i) => (
+          <Card data={item} key={i} />
         ))}
       </div>
     </div>
