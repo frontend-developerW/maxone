@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CategorySvg,
   HomeIcon,
@@ -8,7 +8,8 @@ import {
   PhoneSvg,
   Search,
   SearchMobile,
-  Settings
+  Settings,
+  ToTopSvg
 } from "./Svgs";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux/es/exports";
@@ -16,15 +17,39 @@ import { setLanguage, setSearch } from "../redux/actions/languageActions";
 import { useLanguage } from "../redux/selectors";
 function Navbar() {
   const location = useLocation();
-  useEffect(() => {
+  const [activeBottom, setActiveBottom] = useState(false);
+  const [likeView, setLikeView] = useState(false);
+  const { language, countLike } = useLanguage();
+  const scrollTo = () => {
+    setActiveBottom(false);
     window.scrollTo(0, 0);
+  };
+  useEffect(() => {
+    scrollTo();
   }, [location]);
-
+  useEffect(() => {
+    setLikeView(true);
+    setTimeout(() => {
+      setLikeView(false);
+    }, 3000);
+  }, [countLike]);
+  useEffect(() => {
+      setLikeView(false);
+    }, [])
+  
+  window.onwheel = function () {
+    console.log(window.scrollY);
+    if (window.scrollY > window.innerHeight) {
+      setActiveBottom(true);
+    } else {
+      setActiveBottom(false);
+    }
+  };
   const dispatch = useDispatch();
   const changLang = (e) => {
     dispatch(setLanguage(e.target.value));
   };
-  const { language, countLike } = useLanguage();
+
   return (
     <>
       <div className="pt-[14vw] hidden md:block">
@@ -70,6 +95,22 @@ function Navbar() {
                   {language["4"]}
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/terms"
+                  className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white  hover:border-b-[#004899] hover:opacity-100"
+                >
+                  Terms
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/about"
+                  className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white  hover:border-b-[#004899] hover:opacity-100"
+                >
+                  About
+                </NavLink>
+              </li>
             </ul>
             <a href="tel:+998 99 011 89 34">
               <button className="flex flex-col items-center justify-center">
@@ -82,11 +123,11 @@ function Navbar() {
               </button>
             </a>
           </nav>
-          <div className="flex items-center justify-center p-[1vw] bg-[#004F9E] mb-[4vw] gap-[2vw]">
+          <div className="flex items-center justify-center p-[1vw]  bg-gradient-to-tr  from-[#0074E7] via-[#004B99] to-[#0074E7] mb-[4vw] gap-[2vw]">
             <div className="flex justify-between items-center bg-white rounded-[10vw] p-[.4vw] pr-[2vw] pl-[2vw] w-[50%] gap-[1vw] search">
               <Search />
               <input
-                type="search"
+                type="text"
                 className="outline-0 w-[85%] text-[1.4vw]"
                 placeholder="Search"
                 onInput={(e) => dispatch(setSearch(e.target.value))}
@@ -141,6 +182,13 @@ function Navbar() {
           </Link>
           <div className="flex flex-col items-center gap-[1vw]">
             <button className="relative like">
+              {likeView && (
+                <div className="absolute w-[60vw] h-[20vw] top-[-22vw] left-[5vw] z-50 rounded-[3vw] rounded-bl-none  bg-gradient-to-b from-[#C8E4FF] to-[#fff]">
+                  <p className="text-[6vw] text-[#004B99]">
+                    Like bosilgan tovarlar bu yerda
+                  </p>
+                </div>
+              )}
               <Link to={"/likes"}>
                 <Liking />
               </Link>
@@ -170,6 +218,16 @@ function Navbar() {
           </a>
         </div>
       </div>
+      {window.innerWidth > 768 && (
+        <button
+          className={`fixed  ${
+            activeBottom ? "right-[3vw]" : "right-[-10vw]"
+          } bottom-[3vw] transition-[.4s]`}
+          onClick={scrollTo}
+        >
+          <ToTopSvg />
+        </button>
+      )}
     </>
   );
 }

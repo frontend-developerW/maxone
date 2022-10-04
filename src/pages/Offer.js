@@ -18,6 +18,7 @@ function Offer() {
   const [allProduct, setallProduct] = useState([]);
   const [ActiveSlide, setActiveSlide] = useState("");
   const [input, setInput] = useState("");
+  const [region, setRegion] = useState("");
   const [name, setName] = useState("");
   const [color, setColor] = useState("red");
   const [categorys, setCategorys] = useState([]);
@@ -41,7 +42,7 @@ function Offer() {
     } catch (e) {
       console.log("Error", e);
     }
-  }
+  };
   Array.prototype.removeByValue = function (val) {
     for (var i = 0; i < this.length; i++) {
       if (this[i] === val) {
@@ -81,7 +82,8 @@ function Offer() {
       const { data } = await postLeads({
         product: product?.id,
         customer_name: name,
-        phone: input
+        phone: input, 
+        region: region
       });
       setModal(false);
       toast.success(data?.status, {
@@ -95,14 +97,14 @@ function Offer() {
   const { currentLang, language, searchValue } = useLanguage();
   return searchValue.length > 4 ? (
     <div className="grid justify-between p-[7vw] gap-[2vw] grid-cols-4 pt-0">
-      {allProduct
-        ?.map((item, i) =>
+      {allProduct?.map(
+        (item, i) =>
           item[`name_${currentLang}`].includes(searchValue) && (
             <Card data={item} key={i} />
-          ) 
-        )}
+          )
+      )}
     </div>
-  ) :(
+  ) : (
     <>
       <ToastContainer />
       <div className="p-[7vw] md:bg-transparent bg-[#fff]">
@@ -115,20 +117,25 @@ function Offer() {
                 className="md:h-[30vw] md:w-[30vw] h-[45vw] w-[45vw] object-contain"
               />
             </div>
-            <div className="flex md:flex-col gap-[1vw]">
+            <div className="flex md:flex-col justify-center md:gap-[1vw] gap-[6vw]">
               {product?.colors?.map((item) => (
                 <div
                   key={item?.id}
-                  className="border md:border-gray-600 bg-[#fff] flex items-center justify-center cursor-pointer rounded-[2vw] p-[1vw]"
+                  className={`border md:border-gray-600 md:bg-[#fff] flex items-center justify-center cursor-pointer md:rounded-[2vw] rounded-[8vw] md:p-[1vw] p-[5vw]`}
                   onClick={() => {
                     setActiveSlide(item?.image1);
                   }}
+                  style={{
+                    backgroundColor: window.innerWidth < 768 && item.color
+                  }}
                 >
-                  <img
-                    src={item?.image1}
-                    alt=""
-                    className="md:h-[9vw] h-[20vw] w-[100%] object-contain"
-                  />
+                  {window.innerWidth > 768 && (
+                    <img
+                      src={item?.image1}
+                      alt=""
+                      className="md:h-[9vw] h-[20vw] w-[100%] object-contain"
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -151,7 +158,9 @@ function Offer() {
             <p className="text-[#006BC5] md:text-[2.7vw] text-[5.7vw] mb-[2vw]">
               {product?.price} so'm
             </p>
-            <p className="md:text-[#006BC5] md:text-[1.7vw] text-[3.7vw] mb-[2vw]">{language["color"]}</p>
+            <p className="md:text-[#006BC5] md:text-[1.7vw] text-[3.7vw] mb-[2vw]">
+              {language["color"]}
+            </p>
             <div className="grid grid-cols-3 md:gap-[1vw] gap-[3vw] mt-[1vw]">
               {product?.colors?.map((item, i) => (
                 <div
@@ -206,9 +215,8 @@ function Offer() {
         <div className="grid justify-between md:gap-[2vw] gap-[4vw] md:grid-cols-4 grid-cols-2">
           {allProduct.map(
             (item) =>
-              item.category === product.category && item.brand === product.brand && (
-                <Card key={item.id} data={item} />
-              )
+              item.category === product.category &&
+              item.brand === product.brand && <Card key={item.id} data={item} />
           )}
         </div>
       </div>
@@ -219,13 +227,36 @@ function Offer() {
             className="absolute w-[100vw] h-[100vh]"
             onClick={() => setModal(false)}
           ></div>
-          <div className="bg-white p-[2vw] rounded-[2vw] flex flex-col gap-[1vw] relative z-[88]">
-            <p className="text-[#006BC5] text-[1.7vw] text-center">
+          <div className="bg-white p-[2vw] rounded-[2vw] flex flex-col md:gap-[1vw] gap-[4vw] relative z-[88]">
+            <p className="text-[#006BC5] md:text-[1.7vw] text-[5.7vw] text-center">
               Buyurtma berish!
             </p>
+            <select
+              className="border md:rounded-[.4vw] rounded-[1vw] outline-[#2379fa] md:p-[.4vw] p-[2vw] md:text-[1.4vw] text-[4.4vw]"
+              placeholder="Ismingizni kiriting"
+              id=""
+              onChange={(e) => setRegion(e.target.value)}
+            >
+              <option value="Toshkent shaxri">Toshkent shaxri</option>
+              <option value="Andijon viloyati">Andijon viloyati</option>
+              <option value="Buxoro viloyati">Buxoro viloyati</option>
+              <option value="Fargʻona viloyati">Fargʻona viloyati</option>
+              <option value="Jizzax viloyati">Jizzax viloyati</option>
+              <option value="Xorazm viloyati">Xorazm viloyati</option>
+              <option value="Namangan viloyati">Namangan viloyati</option>
+              <option value="Navoiy viloyati">Navoiy viloyati</option>
+              <option value="Qashqadaryo viloyati">Qashqadaryo viloyati</option>
+              <option value="Samarqand viloyati">Samarqand viloyati</option>
+              <option value="Sirdaryo viloyati">Sirdaryo viloyati</option>
+              <option value="Surxondaryo viloyati">Surxondaryo viloyati</option>
+              <option value="Toshkent viloyat">Toshkent viloyat</option>
+              <option value="Qoraqalpogʻiston Respublikasi">
+                Qoraqalpogʻiston Respublikasi
+              </option>
+            </select>
             <input
               type="text"
-              className="border outline-[#2379fa] p-[.4vw] text-[1.4vw]"
+              className="border md:rounded-[.4vw] rounded-[1vw] outline-[#2379fa] md:p-[.4vw] p-[2vw] md:text-[1.4vw] text-[4.4vw]"
               placeholder="Ismingizni kiriting"
               onChange={(e) => setName(e.target.value)}
             />
@@ -235,7 +266,7 @@ function Offer() {
                 input.length > 5 && name.length > 3
                   ? "bg-[#2379fa]"
                   : "bg-[#9c9c9c] "
-              }  p-[.4vw] rounded-[.4vw] text-[#fff] text-[1.2vw]`}
+              }  md:p-[.4vw] p-[1.2vw] md:rounded-[.4vw] rounded-[1vw] text-[#fff] md:text-[1.2vw] text-[4.2vw]`}
               onClick={postData}
             >
               Yuborish

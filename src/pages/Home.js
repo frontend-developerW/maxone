@@ -24,6 +24,18 @@ function Home() {
   const [sliders, setSliders] = useState([]);
   const [page, setPage] = useState(8);
   const { currentLang, language, searchValue } = useLanguage();
+  function getPreviousMonday() {
+    var date = new Date();
+    var day = date.getDay();
+    var prevMonday = new Date();
+    if (date.getDay() == 0) {
+      prevMonday.setDate(date.getDate() - 7);
+    } else {
+      prevMonday.setDate(date.getDate() - (day - 1));
+    }
+
+    return prevMonday.toLocaleDateString();
+  }
   const getData = useCallback(async () => {
     try {
       const product = await getProducts();
@@ -40,12 +52,12 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    getData();
+    getData(); 
   }, []);
 
   let slides = sliders.map((slider) => (
     <div className="mt-[8vw] mb-[5vw]">
-      <div className="flex bg-[#004B99] md:h-auto h-[35vw] md:w-[80vw] w-[90vw] m-auto p-[3vw] rounded-[2vw] relative min-h-[25vw]">
+      <div className="flex bg-gradient-to-tr  from-[#0074E7] via-[#004B99] to-[#0074E7] md:h-auto h-[35vw] md:w-[75vw] w-[90vw] m-auto p-[3vw] rounded-[2vw] relative min-h-[22vw]">
         <div className="flex flex-col">
           <h1 className="m-bold text-left text-[#ffffff] md:text-[3vw] text-[6vw] md:w-[100%] w-[60vw] ">
             {slider?.[`name_${currentLang}`]}
@@ -63,7 +75,7 @@ function Home() {
         </div>
         <img
           src={slider?.image}
-          className="absolute bottom-0 right-[3vw] md:w-[25vw] w-[33vw]"
+          className="absolute bottom-0 right-[3vw] md:w-[21vw] w-[33vw]"
           alt="1"
         />
       </div>
@@ -103,13 +115,13 @@ function Home() {
       <div className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] md:grid-cols-4 grid-cols-3">
         {categorys?.map((item, i) => (
           <Link to="/brands" key={i}>
-            <div className="flex flex-col items-center cursor-pointer">
+            <div className="flex flex-col items-center cursor-pointer hover:opacity-70">
               <img
                 src={`https://maxone.abba.uz${
                   item?.image || "/files/111_1aBNoct.png"
                 }`}
                 className={
-                  "md:w-[13vw] md:h-[13vw] w-[17vw] h-[17vw] object-cover rounded-[15vw]"
+                  "md:w-[10vw] md:h-[10vw] w-[17vw] h-[17vw] object-cover rounded-[15vw]"
                 }
                 alt=""
               />
@@ -129,11 +141,18 @@ function Home() {
        ok
      </button>
    </div> */}
-      <div className="px-[12vw]">
-        <h1 className="m-bold text-center text-[#006BC5] md:text-[3vw] text-[5vw] capitalize">
-          {language["w"]}
-        </h1>
-      </div>
+      {window.innerWidth > 768 && (
+        <div className="px-[12vw] py-[5vw] relative">
+          <h1 className="m-bold text-center text-[#006BC5] md:text-[2.4vw] text-[5vw] capitalize">
+            {language["w"]}
+          </h1>
+          <div className="absolute p-[.5vw] items-center px-[2vw] rounded-[1vw] bg-[#8cc5ff81] right-[7vw] top-[5vw] flex flex-col">
+            <p className="text-[#006BC5] text-[1vw]">Oxirgi yangilanish</p>
+            <b className="text-[#006BC5] text-[1vw]">{getPreviousMonday()}</b>
+          </div>
+        </div>
+      )}
+
       {bestProducts.length > 1 && (
         <div className="p-[7vw] pt-0">
           <div className="grid justify-between md:p-[3vw] p-[9vw] bg-[#9dcbf891] md:gap-[2vw] gap-[5vw] md:grid-cols-4 grid-cols-2 rounded-[3vw]">

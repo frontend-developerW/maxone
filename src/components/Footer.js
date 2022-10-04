@@ -1,9 +1,10 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { FaceBookSvg, InstagramSvg, TwitterSvg } from "./Svgs";
 
 function Footer() {
   return (
-    <div className="p-[5vw] pl-[7vw] pr-[7vw] bg-[#004B99] flex gap-[5vw] justify-between md:flex-row flex-col">
+    <div className="p-[5vw] md:pb-[5vw] pb-[40vw] pl-[7vw] pr-[7vw] bg-[#004B99] flex gap-[5vw] justify-between md:flex-row flex-col">
       <div className="flex md:items-stretch items-center justify-between md:w-[25%] w-full md:flex-col ">
         <img
           src={require("../assets/img/footer.png")}
@@ -16,20 +17,22 @@ function Footer() {
           one step easier.
         </p>
         <div className="flex items-center md:gap-[1vw] gap-[3vw] mt-[2vw]">
-          <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5]">
+          <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5] hover:bg-[#043885] cursor-pointer transition-[.8s] hover:rotate-[360deg]">
             <FaceBookSvg />
           </div>
-          <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5]">
+          <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5] hover:bg-[#043885] cursor-pointer transition-[.8s] hover:rotate-[360deg]">
             <TwitterSvg />
           </div>
-          <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5]">
+          <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5] hover:bg-[#043885] cursor-pointer transition-[.8s] hover:rotate-[360deg]">
             <InstagramSvg />
           </div>
         </div>
       </div>
-      <ul className="md:block ">
+      <ul>
         <li>
-          <h1 className="text-white md:text-[1.5vw] text-[6.5vw] mt-[1.5vw]">Company</h1>
+          <h1 className="text-white md:text-[1.5vw] text-[6.5vw] mt-[1.5vw]">
+            Company
+          </h1>
         </li>
         <li className="md:flex inline-block md:mr-0 mr-[5vw]">
           <a
@@ -64,27 +67,27 @@ function Footer() {
           </a>
         </li>
       </ul>
-      <ul className="md:block ">
-        <li  className=" md:mr-0 mr-[5vw] md:block hidden">
+      <ul>
+        <li className=" md:mr-0 mr-[5vw] md:block hidden">
           <h1 className="text-white text-[1.5vw]  mt-[1.5vw]">Terms</h1>
         </li>
-        <li  className="md:flex inline-block md:mr-0 mr-[5vw]">
-          <a
-            href="#"
+        <li className="md:flex inline-block md:mr-0 mr-[5vw]">
+          <NavLink
+            to="/terms"
             className="text-white md:text-[1vw] text-[3.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
           >
-            About Us
-          </a>
+            Terms
+          </NavLink>
         </li>
-        <li  className="md:flex inline-block md:mr-0 mr-[5vw]">
-          <a
-            href="#"
+        <li className="md:flex inline-block md:mr-0 mr-[5vw]">
+          <NavLink
+            to="/about"
             className="text-white md:text-[1vw] text-[3.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
           >
-            Contact Us
-          </a>
+            About
+          </NavLink>
         </li>
-        <li  className="md:flex inline-block md:mr-0 mr-[5vw]">
+        <li className="md:flex inline-block md:mr-0 mr-[5vw]">
           <a
             href="#"
             className="text-white md:text-[1vw] text-[3.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
@@ -92,7 +95,7 @@ function Footer() {
             Support
           </a>
         </li>
-        <li  className="md:flex inline-block md:mr-0 mr-[5vw]">
+        <li className="md:flex inline-block md:mr-0 mr-[5vw]">
           <a
             href="#"
             className="text-white md:text-[1vw] text-[3.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"

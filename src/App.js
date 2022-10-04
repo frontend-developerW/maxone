@@ -10,6 +10,8 @@ import Products from "./pages/Products";
 import Offer from "./pages/Offer";
 import store from "./redux";
 import Likes from "./pages/Likes";
+import Terms from "./pages/Terms";
+import About from "./pages/About";
 function App() {
   return (
     <Provider store={store}>
@@ -22,6 +24,8 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/offer/:id" element={<Offer />} />
             <Route path="/likes" element={<Likes />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/about" element={<About />} />
           </Routes>
           <Footer />
         </BrowserRouter>

@@ -55,7 +55,7 @@ function Card({ data }) {
     dispatch(setLikeCount(JSON.parse(localStorage["like"]).length));
   };
   return (
-    <div className="w-full md:p-[2vw] bg-[#fff] border md:rounded-[2vw] rounded-[3.4vw] p-[3vw] card">
+    <div className="hover:shadow-xl cursor-pointer transition-[.5s] hover:translate-y-[-1.4vw] w-full md:p-[2vw] bg-[#fff] border md:rounded-[2vw] rounded-[3.4vw] p-[3vw] card">
       <img
         src={`${data?.image || "https://maxone.abba.uz/files/111_1aBNoct.png"}`}
         alt=""
@@ -74,7 +74,7 @@ function Card({ data }) {
         <Link to={"/offer/" + data?.id} className="w-[70%] ">
           <button
             onClick={setCaounter}
-            className="w-full bg-gradient-to-b from-[#74B4FF] to-[#3C84CF] text-[#fff] text-[3vw] md:text-[1.4vw] md:p-[.5vw] py-[1.3vw]  pr-[1.5vw] pl-[1.5vw] md:rounded-[1vw] rounded-[2vw]"
+            className="w-full bg-gradient-to-b from-[#74B4FF] to-[#3C84CF] text-[#fff] text-[3vw] md:text-[1.4vw] md:p-[.5vw] py-[1.3vw]  pr-[1.5vw] pl-[1.5vw] md:rounded-[1vw] rounded-[2vw] hover:scale-[.9] transition-[.4s]"
           >
             buy now
           </button>
