@@ -37,11 +37,7 @@ function Likes() {
           Ozingizga yoqqan tovarlarga like bosing va saqlab qoying
         </p>
       </div>
-      {localStorage.getItem("like") === null ? (
-        <h1 className="m-bold  my-[5vw] text-left text-[#006BC5] md:text-[3vw] text-[5vw] px-[7vw]">
-          Tovar mavjud emas
-        </h1>
-      ) : (
+      {
         <div className="grid justify-between p-[7vw] gap-[2vw] md:grid-cols-4 grid-cols-2 pt-0 mt-[4vw]">
           {localStorage.getItem("like") &&
             products?.map(
@@ -51,12 +47,12 @@ function Likes() {
                 )
             )}
           {JSON.parse(localStorage["like"] ?? [" "]).length < 1 && (
-            <h1 className="m-bold text-[#006BC5] text-[3vw] mb-[3vw]">
+            <h1 className="m-regular text-[#006BC5] md:text-[3vw] mb-[3vw]">
               Yoqtirilgan maxsulotlar mavjud emas
             </h1>
           )}
         </div>
-      )}
+      }
       {/*  */}
     </div>
   );

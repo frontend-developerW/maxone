@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Provider} from 'react-redux';
 import "./assets/styles/main.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,6 +13,12 @@ import Likes from "./pages/Likes";
 import Terms from "./pages/Terms";
 import About from "./pages/About";
 function App() {
+  useEffect(() => {
+    if(localStorage['like'] === undefined){
+      localStorage.setItem('like', '[]')
+    }
+  }, [])
+  
   return (
     <Provider store={store}>
       <div>
@@ -20,7 +26,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/brands" element={<Brands />} />
+            <Route path="/brands/:id" element={<Brands />} />
             <Route path="/products" element={<Products />} />
             <Route path="/offer/:id" element={<Offer />} />
             <Route path="/likes" element={<Likes />} />

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { setLikeCount, setSearch } from "../redux/actions/languageActions";
 import { useLanguage } from "../redux/selectors";
 import { Like, NotLike } from "./Svgs";
-
+import CurrencyFormat from "react-currency-format";
 function Card({ data }) {
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(
@@ -16,7 +16,7 @@ function Card({ data }) {
   const interestCount = localStorage["interestCount"] || 0;
   const interestPrice = localStorage["interestPrice"] || 0;
   const setCaounter = () => {
-    dispatch(setSearch(''))
+    dispatch(setSearch(""));
     localStorage.setItem("interestCount", Number(interestCount) + 1);
     localStorage.setItem("interestPrice", Number(interestPrice) + data?.price);
     localStorage.setItem(
@@ -55,7 +55,7 @@ function Card({ data }) {
     dispatch(setLikeCount(JSON.parse(localStorage["like"]).length));
   };
   return (
-    <div className="hover:shadow-xl cursor-pointer transition-[.5s] hover:translate-y-[-1.4vw] w-full md:p-[2vw] bg-[#fff] border md:rounded-[2vw] rounded-[3.4vw] p-[3vw] card">
+    <div className="hover:shadow-xl cursor-pointer transition-[.5s] hover:translate-y-[-1.4vw] w-full md:p-[2vw] bg-[#fff] border md:rounded-[2vw] rounded-[3.4vw] p-[3vw] card md:min-w-0 min-w-[42vw]">
       <img
         src={`${data?.image || "https://maxone.abba.uz/files/111_1aBNoct.png"}`}
         alt=""
@@ -68,7 +68,13 @@ function Card({ data }) {
         {data?.[`description_${currentLang}`] || "description"}
       </p>
       <p className="text-[#006BC5] text-[3vw] md:text-[1.5vw] mb-[.4vw]">
-        {data?.price || "0"} so‘m
+        <CurrencyFormat
+          value={data?.price || "0"}
+          displayType={"text"}
+          thousandSeparator={true}
+          prefix={""}
+        />
+        so‘m
       </p>
       <div className="flex items-center justify-between">
         <Link to={"/offer/" + data?.id} className="w-[70%] ">

@@ -15,11 +15,24 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux/es/exports";
 import { setLanguage, setSearch } from "../redux/actions/languageActions";
 import { useLanguage } from "../redux/selectors";
+import { getProducts } from "../requests";
+import Card from "./Card";
+import CurrencyFormat from "react-currency-format";
 function Navbar() {
   const location = useLocation();
   const [activeBottom, setActiveBottom] = useState(false);
   const [likeView, setLikeView] = useState(false);
-  const { language, countLike } = useLanguage();
+  const [searchValue, setSearchValue] = useState("");
+  const { language, countLike, currentLang } = useLanguage();
+  const [allProduct, setallProduct] = useState([]);
+  const getData = async () => {
+    try {
+      const products = await getProducts();
+      setallProduct(products?.data);
+    } catch (e) {
+      console.log("Error", e);
+    }
+  };
   const scrollTo = () => {
     setActiveBottom(false);
     window.scrollTo(0, 0);
@@ -34,9 +47,11 @@ function Navbar() {
     }, 3000);
   }, [countLike]);
   useEffect(() => {
-      setLikeView(false);
-    }, [])
-  
+    setLikeView(false);
+
+    getData();
+  }, []);
+
   window.onwheel = function () {
     console.log(window.scrollY);
     if (window.scrollY > window.innerHeight) {
@@ -123,53 +138,136 @@ function Navbar() {
               </button>
             </a>
           </nav>
-          <div className="flex items-center justify-center p-[1vw]  bg-gradient-to-tr  from-[#0074E7] via-[#004B99] to-[#0074E7] mb-[4vw] gap-[2vw]">
-            <div className="flex justify-between items-center bg-white rounded-[10vw] p-[.4vw] pr-[2vw] pl-[2vw] w-[50%] gap-[1vw] search">
-              <Search />
-              <input
-                type="text"
-                className="outline-0 w-[85%] text-[1.4vw]"
-                placeholder="Search"
-                onInput={(e) => dispatch(setSearch(e.target.value))}
-              />
-              <Settings />
+          <div className="relative">
+            <div className="flex items-center justify-center p-[1vw]  bg-gradient-to-tr  from-[#0074E7] via-[#004B99] to-[#0074E7] mb-[4vw] gap-[2vw]">
+              <div className="flex justify-between items-center bg-white rounded-[10vw] p-[.4vw] pr-[2vw] pl-[2vw] w-[50%] gap-[1vw] search">
+                <Search />
+                <input
+                  type="text"
+                  className="outline-0 w-[85%] text-[1.4vw]"
+                  placeholder="Search"
+                  onInput={(e) => {
+                    setSearchValue(e.target.value);
+                    dispatch(setSearch(e.target.value));
+                  }}
+                />
+                <Settings />
+              </div>
+              <button className="relative like">
+                <Link to={"/likes"}>
+                  <Liking />
+                </Link>
+                <div className="bg-red-600 flex items-center justify-center text-white w-[1.5vw] top-0 right-0 h-[1.5vw] text-[1vw] absolute rounded-[3vw]">
+                  {countLike}
+                </div>
+              </button>
+              <label htmlFor="lang">
+                <button className="flex items-center lang">
+                  <div className="relative z-[2]">
+                    <LangIcong />
+                  </div>
+                  <select
+                    className="relative left-[-3vw] rounded-[3vw] outline-0 p-[.4vw] z-[1] bg-[#ffffff70] pl-[3.6vw] pr-[1vw] text-[#fff] text-[1.2vw]"
+                    onChange={changLang}
+                    defaultValue={localStorage["lang"] || "uz"}
+                    id="lang"
+                  >
+                    <option value="uz">Uzbek</option>
+                    <option value="ru">Russian</option>
+                    <option value="en">English</option>
+                  </select>
+                </button>
+              </label>
             </div>
-            <button className="relative like">
-              <Link to={"/likes"}>
-                <Liking />
-              </Link>
-              <div className="bg-red-600 flex items-center justify-center text-white w-[1.5vw] top-0 right-0 h-[1.5vw] text-[1vw] absolute rounded-[3vw]">
-                {countLike}
+            {searchValue.length > 2 && (
+              <div className="absolute w-[48vw] bg-[#fff] rounded-[1vw] left-[16vw] top-[5vw] max-h-[35vw] overflow-auto">
+                <div className="grid justify-between p-[1vw] grid-cols-1 pt-0">
+                  {allProduct?.map(
+                    (item, i) =>
+                      item[`name_${currentLang}`]
+                        .toLocaleLowerCase()
+                        .includes(searchValue.toLocaleLowerCase()) && (
+                        <Link to={'/offer/' + item?.id} onClick={()=>setSearchValue('')}>
+                          <div className="flex gap-[1vw] border-b p-[1vw]">
+                            <img
+                              src={item?.image}
+                              className="w-[6vw] h-[6vw] object-contain"
+                              alt=""
+                            />
+                            <div className="flex flex-col">
+                              <p className="text-[1.6vw]">
+                                {item[`name_${currentLang}`]}
+                              </p>
+                              <p className="text-[1.6vw] text-[#004B99]">
+                                <CurrencyFormat
+                                  value={item?.price || "0"}
+                                  displayType={"text"}
+                                  thousandSeparator={true}
+                                  prefix={""}
+                                />{" "}
+                                so'm
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      )
+                  )}
+                </div>
               </div>
-            </button>
-            <button className="flex items-center lang">
-              <div className="relative z-[2]">
-                <LangIcong />
-              </div>
-              <select
-                className="relative left-[-3vw] rounded-[3vw] outline-0 p-[.4vw] z-[1] bg-[#ffffff70] pl-[3.6vw] pr-[1vw] text-[#fff] text-[1.2vw]"
-                onChange={changLang}
-                defaultValue={localStorage["lang"] || "uz"}
-              >
-                <option value="uz">Uzbek</option>
-                <option value="ru">Russian</option>
-                <option value="en">English</option>
-              </select>
-            </button>
+            )}
           </div>
         </header>
       </div>
-      <div className="justify-center flex md:hidden  pt-[3vw] pb-[3vw]">
+      <div className="justify-center flex md:hidden  pt-[3vw] pb-[3vw] relative">
         <div className="flex justify-between  items-center bg-[#3A88DA] rounded-[10vw] p-[2vw] w-[90vw] margin-auto gap-[3vw] px-[4vw]">
           <SearchMobile />
           <input
             type="text"
             className="outline-0 w-[85%] text-[4.4vw] bg-[#3A88DA] placeholder:text-[#fff] text-[#fff]"
             placeholder="Search"
-            onInput={(e) => dispatch(setSearch(e.target.value))}
+            onInput={(e) => {
+              setSearchValue(e.target.value);
+              dispatch(setSearch(e.target.value));
+            }}
           />
           <Settings />
         </div>
+        {searchValue.length > 2 && (
+              <div className="absolute w-[90vw] bg-[#fff] rounded-[1vw] left-[5vw] top-[16vw] max-h-[80vh] overflow-auto z-50">
+                <div className="grid justify-between p-[2vw] grid-cols-1 pt-0">
+                  {allProduct?.map(
+                    (item, i) =>
+                      item[`name_${currentLang}`]
+                        .toLocaleLowerCase()
+                        .includes(searchValue.toLocaleLowerCase()) && (
+                        <Link to={'/offer/' + item?.id} onClick={()=>setSearchValue('')}>
+                          <div className="flex gap-[1vw] border-b p-[1vw]">
+                            <img
+                              src={item?.image}
+                              className="w-[16vw] h-[16vw] object-contain"
+                              alt=""
+                            />
+                            <div className="flex flex-col">
+                              <p className="text-[3.6vw]">
+                                {item[`name_${currentLang}`]}
+                              </p>
+                              <p className="text-[3.6vw] text-[#004B99]">
+                                <CurrencyFormat
+                                  value={item?.price || "0"}
+                                  displayType={"text"}
+                                  thousandSeparator={true}
+                                  prefix={""}
+                                />{" "}
+                                so'm
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      )
+                  )}
+                </div>
+              </div>
+            )}
       </div>
 
       <div className="md:hidden flex items-center justify-center fixed h-[25vw] p-[4vw] rounded-t-[6vw] shadow-xl shadow-[black] bg-gradient-to-b from-[#C8E4FF] to-[#fff] z-50 bottom-0 w-full px-[7vw]">
@@ -183,8 +281,8 @@ function Navbar() {
           <div className="flex flex-col items-center gap-[1vw]">
             <button className="relative like">
               {likeView && (
-                <div className="absolute w-[60vw] h-[20vw] top-[-22vw] left-[5vw] z-50 rounded-[3vw] rounded-bl-none  bg-gradient-to-b from-[#C8E4FF] to-[#fff]">
-                  <p className="text-[6vw] text-[#004B99]">
+                <div className="absolute w-[60vw] h-[20vw] top-[-22vw] left-[5vw] z-50 rounded-[3vw] rounded-bl-none  bg-gradient-to-b from-[#C8E4FF] to-[#fff] animate-in">
+                  <p className="text-[5vw] text-[#004B99]">
                     Like bosilgan tovarlar bu yerda
                   </p>
                 </div>
@@ -198,13 +296,13 @@ function Navbar() {
             </button>
             <p className="text-[3vw] text-[#004B99]">LIKE</p>
           </div>
-          <Link to="/" className="relative w-[10vw]">
+          <div  className="relative w-[10vw]">
             <img
               src={require("../assets/img/bar.png")}
               className="fixed left-[38.5vw] bottom-[12vw] w-[25vw] h-[25vw]"
             />
-          </Link>
-          <Link to="/products">
+          </div>
+          <Link to="/brands">
             <div className="flex flex-col items-center gap-[1vw]">
               <CategorySvg />
               <p className="text-[3vw] text-[#004B99]"> {language["9"]}</p>

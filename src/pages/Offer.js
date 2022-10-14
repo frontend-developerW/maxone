@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Card from "../components/Card";
 import { Like, NotLike } from "../components/Svgs";
 import { getCategorys, getProduct, getProducts, postLeads } from "../requests";
-import { slides } from "../utils";
+import CurrencyFormat from "react-currency-format";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useLanguage } from "../redux/selectors";
@@ -36,7 +36,10 @@ function Offer() {
       setActiveSlide(product?.data?.colors?.[0].image1);
       const category = await getCategorys();
       setCategorys(category?.data);
-
+      console.log('====================================');
+      console.log(product?.data?.colors?.[0].color);
+      console.log('====================================');
+      setColor(product?.data?.colors?.[0].color)
       const products = await getProducts();
       setallProduct(products?.data);
     } catch (e) {
@@ -82,7 +85,7 @@ function Offer() {
       const { data } = await postLeads({
         product: product?.id,
         customer_name: name,
-        phone: input, 
+        phone: input,
         region: region
       });
       setModal(false);
@@ -95,16 +98,7 @@ function Offer() {
   }
 
   const { currentLang, language, searchValue } = useLanguage();
-  return searchValue.length > 4 ? (
-    <div className="grid justify-between p-[7vw] gap-[2vw] grid-cols-4 pt-0">
-      {allProduct?.map(
-        (item, i) =>
-          item[`name_${currentLang}`].includes(searchValue) && (
-            <Card data={item} key={i} />
-          )
-      )}
-    </div>
-  ) : (
+  return (
     <>
       <ToastContainer />
       <div className="p-[7vw] md:bg-transparent bg-[#fff]">
@@ -116,28 +110,6 @@ function Offer() {
                 alt=""
                 className="md:h-[30vw] md:w-[30vw] h-[45vw] w-[45vw] object-contain"
               />
-            </div>
-            <div className="flex md:flex-col justify-center md:gap-[1vw] gap-[6vw]">
-              {product?.colors?.map((item) => (
-                <div
-                  key={item?.id}
-                  className={`border md:border-gray-600 md:bg-[#fff] flex items-center justify-center cursor-pointer md:rounded-[2vw] rounded-[8vw] md:p-[1vw] p-[5vw]`}
-                  onClick={() => {
-                    setActiveSlide(item?.image1);
-                  }}
-                  style={{
-                    backgroundColor: window.innerWidth < 768 && item.color
-                  }}
-                >
-                  {window.innerWidth > 768 && (
-                    <img
-                      src={item?.image1}
-                      alt=""
-                      className="md:h-[9vw] h-[20vw] w-[100%] object-contain"
-                    />
-                  )}
-                </div>
-              ))}
             </div>
           </div>
           <div>
@@ -156,7 +128,13 @@ function Offer() {
               {product?.[`name_${currentLang}`]}
             </p>
             <p className="text-[#006BC5] md:text-[2.7vw] text-[5.7vw] mb-[2vw]">
-              {product?.price} so'm
+              <CurrencyFormat
+                value={product?.price || "0"}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={""}
+              />{" "}
+              so'm
             </p>
             <p className="md:text-[#006BC5] md:text-[1.7vw] text-[3.7vw] mb-[2vw]">
               {language["color"]}
@@ -212,11 +190,15 @@ function Offer() {
         <h1 className="m-bold text-[#006BC5] md:text-[3vw] text-[5vw] mb-[3vw] text-center mt-[5vw]">
           {language["n"]}
         </h1>
-        <div className="grid justify-between md:gap-[2vw] gap-[4vw] md:grid-cols-4 grid-cols-2">
+        <div className="md:grid justify-between overflow-auto md:gap-[2vw] gap-[4vw] md:grid-cols-4 flex">
           {allProduct.map(
             (item) =>
               item.category === product.category &&
-              item.brand === product.brand && <Card key={item.id} data={item} />
+              item.brand === product.brand && (
+                <div className="md:w-auto w-[45vw]">
+                  <Card key={item.id} data={item} />
+                </div>
+              )
           )}
         </div>
       </div>
@@ -237,6 +219,7 @@ function Offer() {
               id=""
               onChange={(e) => setRegion(e.target.value)}
             >
+              <option value="">Viloyatingizni tanlang</option>
               <option value="Toshkent shaxri">Toshkent shaxri</option>
               <option value="Andijon viloyati">Andijon viloyati</option>
               <option value="Buxoro viloyati">Buxoro viloyati</option>

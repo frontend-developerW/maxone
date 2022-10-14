@@ -14,12 +14,15 @@ import {
   getBestProducts,
   getCategorys,
   getProducts,
-  getSliders
+  getSliders,
+  getTypes
 } from "../requests";
 import { useLanguage } from "../redux/selectors";
+import CookieConsent from "react-cookie-consent";
 function Home() {
   const [products, setProducts] = useState([]);
   const [categorys, setCategorys] = useState([]);
+  const [types, setTypes] = useState([]);
   const [bestProducts, setBestProducts] = useState([]);
   const [sliders, setSliders] = useState([]);
   const [page, setPage] = useState(8);
@@ -46,13 +49,16 @@ function Home() {
       setBestProducts(bestProduct?.data);
       const slider = await getSliders();
       setSliders(slider?.data);
+
+      const type = await getTypes();
+      setTypes(type?.data);
     } catch (e) {
       console.log("Error", e);
     }
   }, []);
 
   useEffect(() => {
-    getData(); 
+    getData();
   }, []);
 
   let slides = sliders.map((slider) => (
@@ -86,18 +92,7 @@ function Home() {
       setPage(page + 4);
     }
   };
-  return searchValue.length > 4 ? (
-    <div className="grid justify-between p-[7vw] gap-[2vw] grid-cols-4 pt-0">
-      {products
-        .slice(0, page)
-        ?.map(
-          (item, i) =>
-            item[`name_${currentLang}`].includes(searchValue) && (
-              <Card data={item} key={i} />
-            )
-        )}
-    </div>
-  ) : (
+  return (
     <div>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -114,11 +109,37 @@ function Home() {
       </h1>
       <div className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] md:grid-cols-4 grid-cols-3">
         {categorys?.map((item, i) => (
-          <Link to="/brands" key={i}>
+          <Link
+            to={"/brands/" + item?.id}
+            key={i}
+            onClick={() => localStorage.setItem("category", item?.id)}
+          >
             <div className="flex flex-col items-center cursor-pointer hover:opacity-70">
               <img
                 src={`https://maxone.abba.uz${
                   item?.image || "/files/111_1aBNoct.png"
+                }`}
+                className={
+                  "md:w-[10vw] md:h-[10vw] w-[17vw] h-[17vw] object-cover rounded-[15vw]"
+                }
+                alt=""
+              />
+              <p className="mt-[1vw] text-[#0066BE] md:text-[1.3vw] text-[2.3vw]">
+                {item?.[`name_${currentLang}`]}
+              </p>
+            </div>
+          </Link>
+        ))}
+        {types?.map((item, i) => (
+          <Link
+            to={"/brands/" + item?.id}
+            key={i}
+            onClick={() => localStorage.setItem("type", item?.id)}
+          >
+            <div className="flex flex-col items-center cursor-pointer hover:opacity-70">
+              <img
+                src={`${
+                  item?.image || "https://maxone.abba.uz/files/111_1aBNoct.png"
                 }`}
                 className={
                   "md:w-[10vw] md:h-[10vw] w-[17vw] h-[17vw] object-cover rounded-[15vw]"
@@ -141,17 +162,32 @@ function Home() {
        ok
      </button>
    </div> */}
-      {window.innerWidth > 768 && (
-        <div className="px-[12vw] py-[5vw] relative">
-          <h1 className="m-bold text-center text-[#006BC5] md:text-[2.4vw] text-[5vw] capitalize">
-            {language["w"]}
-          </h1>
-          <div className="absolute p-[.5vw] items-center px-[2vw] rounded-[1vw] bg-[#8cc5ff81] right-[7vw] top-[5vw] flex flex-col">
-            <p className="text-[#006BC5] text-[1vw]">Oxirgi yangilanish</p>
-            <b className="text-[#006BC5] text-[1vw]">{getPreviousMonday()}</b>
-          </div>
+      <CookieConsent
+        location="bottom"
+        buttonText="OK"
+        cookieName="maxone"
+        style={{ background: "#fff", flexWrap: "nowrap" }}
+        buttonStyle={{ color: "#fff",  backgroundColor: "#004B99" }}
+        buttonClasses="bg-[#004B99] n-regular p-[.2vw] md:w-[4vw] w-[14vw] text-[#fff] md:text-[2vw] text-[4vw] rounded-[3vw] relative md:left-0 left-[-14vw]"
+        expires={150}
+      >
+        <p className="n-regular md:text-[2vw] text-[4vw] text-[#004B99] ">
+          This website use cookies. Learn moree{" "}
+        </p>
+      </CookieConsent>
+      <div className="px-[12vw] py-[5vw] relative">
+        <h1 className="m-bold text-center text-[#006BC5] md:text-[2.4vw] text-[5vw] capitalize">
+          {language["w"]}
+        </h1>
+        <div className="md:absolute p-[.5vw] items-center px-[2vw] rounded-[1vw] bg-[#8cc5ff81] right-[7vw] top-[5vw] flex flex-col md:w-auto w-[35vw] m-auto">
+          <p className="text-[#006BC5] md:text-[1vw] text-[3vw]">
+            Oxirgi yangilanish
+          </p>
+          <b className="text-[#006BC5] md:text-[1vw] text-[3vw]">
+            {getPreviousMonday()}
+          </b>
         </div>
-      )}
+      </div>
 
       {bestProducts.length > 1 && (
         <div className="p-[7vw] pt-0">
