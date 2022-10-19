@@ -76,7 +76,7 @@ function Home() {
             href="#"
             className="text-[#ffffff9f]  md:text-[1.4vw] text-[2.3vw] md:mt-[6vw] mt-[3vw]"
           >
-            {language["8"]}
+            {language["batafsil"]}
           </a>
         </div>
         <img
@@ -105,9 +105,9 @@ function Home() {
         ))}
       </Swiper>
       <h1 className="m-bold md:mt-0 mt-[5vw] text-center text-[#006BC5] md:text-[3vw] text-[5vw]">
-        {language["9"]}
+        {language["f_3"]}
       </h1>
-      <div className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] md:grid-cols-4 grid-cols-3">
+      <div className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] md:grid-cols-4 grid-cols-3" id="brands">
         {categorys?.map((item, i) => (
           <Link
             to={"/brands/" + item?.id}
@@ -167,8 +167,8 @@ function Home() {
         buttonText="OK"
         cookieName="maxone"
         style={{ background: "#fff", flexWrap: "nowrap" }}
-        buttonStyle={{ color: "#fff",  backgroundColor: "#004B99" }}
-        buttonClasses="bg-[#004B99] n-regular p-[.2vw] md:w-[4vw] w-[14vw] text-[#fff] md:text-[2vw] text-[4vw] rounded-[3vw] relative md:left-0 left-[-14vw]"
+        buttonStyle={{ color: "#fff", backgroundColor: "#004B99" }}
+        buttonClasses="bg-[#004B99] n-regular p-[.2vw] md:w-[4vw] text-[#fff] md:text-[2vw] text-[4vw] rounded-[3vw] relative md:left-0 left-[-15vw] ml-0"
         expires={150}
       >
         <p className="n-regular md:text-[2vw] text-[4vw] text-[#004B99] ">

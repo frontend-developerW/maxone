@@ -153,13 +153,21 @@ body {
         -ms-transform: scale(.4);
         -o-transform: scale(.4);
     }
-    to{
+
+    to {
         transform: scale(1);
         -webkit-transform: scale(1);
         -moz-transform: scale(1);
         -ms-transform: scale(1);
         -o-transform: scale(1);
+    }
 }
+
+@media(min-width:768px) {
+    .CookieConsent {
+        width: 50% !important;
+        left: 25% !important;
+    }
 }
 
 @media(max-width:768px) {

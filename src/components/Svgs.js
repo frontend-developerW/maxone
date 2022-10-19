@@ -610,6 +610,7 @@ export const GoBackSvg = () => (
     viewBox="0 0 60 60"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="w-[10vw] h-[10vw]"
   >
     <circle cx="29.7376" cy="29.7376" r="29.7376" fill="white" />
     <path

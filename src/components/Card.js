@@ -12,7 +12,7 @@ function Card({ data }) {
       JSON.parse(localStorage["like"]).includes(data?.id)) ||
       false
   );
-  const { currentLang } = useLanguage();
+  const { currentLang, language } = useLanguage();
   const interestCount = localStorage["interestCount"] || 0;
   const interestPrice = localStorage["interestPrice"] || 0;
   const setCaounter = () => {
@@ -64,7 +64,8 @@ function Card({ data }) {
       <h1 className="h-bold md:text-[2vw] text-[3.3vw] uppercase overflow-ellipsis overflow-hidden mt-[1vw] whitespace-nowrap w-full text-[#006BC5]">
         {data?.[`name_${currentLang}`] || "Name"}
       </h1>
-      <p className="opacity-40 text-[3vw] md:text-[1.5vw] mb-[.4vw]">
+      <p className="opacity-40 text-[3vw] md:text-[1.5vw] mb-[.4vw] overflow-ellipsis overflow-hidden">
+      
         {data?.[`description_${currentLang}`] || "description"}
       </p>
       <p className="text-[#006BC5] text-[3vw] md:text-[1.5vw] mb-[.4vw]">
@@ -82,7 +83,7 @@ function Card({ data }) {
             onClick={setCaounter}
             className="w-full bg-gradient-to-b from-[#74B4FF] to-[#3C84CF] text-[#fff] text-[3vw] md:text-[1.4vw] md:p-[.5vw] py-[1.3vw]  pr-[1.5vw] pl-[1.5vw] md:rounded-[1vw] rounded-[2vw] hover:scale-[.9] transition-[.4s]"
           >
-            buy now
+           {language['buy']}
           </button>
         </Link>
         <button

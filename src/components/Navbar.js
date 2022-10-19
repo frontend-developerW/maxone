@@ -83,7 +83,7 @@ function Navbar() {
                   to="/products"
                   className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white hover:border-b-[#004899] hover:opacity-100"
                 >
-                  {language["1"]}
+                  {language["main"]}
                 </NavLink>
               </li>
               <li>
@@ -91,7 +91,7 @@ function Navbar() {
                   to="/products"
                   className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white hover:border-b-[#004899] hover:opacity-100"
                 >
-                  {language["2"]}
+                  {language["all_phones"]}
                 </NavLink>
               </li>
               <li>
@@ -99,7 +99,7 @@ function Navbar() {
                   to="/products"
                   className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white  hover:border-b-[#004899] hover:opacity-100"
                 >
-                  {language["3"]}
+                  {language["f_3"]}
                 </NavLink>
               </li>
               <li>
@@ -107,7 +107,7 @@ function Navbar() {
                   to="/products"
                   className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white  hover:border-b-[#004899] hover:opacity-100"
                 >
-                  {language["4"]}
+                  {language["f_4"]}
                 </NavLink>
               </li>
               <li>
@@ -115,7 +115,7 @@ function Navbar() {
                   to="/terms"
                   className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white  hover:border-b-[#004899] hover:opacity-100"
                 >
-                  Terms
+                  {language["f_2"]}
                 </NavLink>
               </li>
               <li>
@@ -123,7 +123,7 @@ function Navbar() {
                   to="/about"
                   className="text-[#004899] text-[1.2vw]  opacity-70 border-b border-b-white  hover:border-b-[#004899] hover:opacity-100"
                 >
-                  About
+                  {language["f_1"]}
                 </NavLink>
               </li>
             </ul>
@@ -145,7 +145,7 @@ function Navbar() {
                 <input
                   type="text"
                   className="outline-0 w-[85%] text-[1.4vw]"
-                  placeholder="Search"
+                  placeholder={language["search"]}
                   onInput={(e) => {
                     setSearchValue(e.target.value);
                     dispatch(setSearch(e.target.value));
@@ -172,8 +172,8 @@ function Navbar() {
                     defaultValue={localStorage["lang"] || "uz"}
                     id="lang"
                   >
-                    <option value="uz">Uzbek</option>
-                    <option value="ru">Russian</option>
+                    <option value="uz">O'zbekcha</option>
+                    <option value="ru">Русский</option>
                     <option value="en">English</option>
                   </select>
                 </button>
@@ -224,7 +224,7 @@ function Navbar() {
           <input
             type="text"
             className="outline-0 w-[85%] text-[4.4vw] bg-[#3A88DA] placeholder:text-[#fff] text-[#fff]"
-            placeholder="Search"
+            placeholder={language["search"]}
             onInput={(e) => {
               setSearchValue(e.target.value);
               dispatch(setSearch(e.target.value));
@@ -302,12 +302,12 @@ function Navbar() {
               className="fixed left-[38.5vw] bottom-[12vw] w-[25vw] h-[25vw]"
             />
           </div>
-          <Link to="/brands">
+          <a href="/#brands">
             <div className="flex flex-col items-center gap-[1vw]">
               <CategorySvg />
               <p className="text-[3vw] text-[#004B99]"> {language["9"]}</p>
             </div>
-          </Link>
+          </a>
           <a href="tel:+998 99 011 89 34">
             <div className="flex flex-col items-center gap-[1vw]">
               <PhoneSvg />

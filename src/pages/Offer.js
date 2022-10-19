@@ -11,6 +11,7 @@ import { setLikeCount } from "../redux/actions/languageActions";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Goback from "../components/Goback";
 
 function Offer() {
   const [modal, setModal] = useState(false);
@@ -36,10 +37,10 @@ function Offer() {
       setActiveSlide(product?.data?.colors?.[0].image1);
       const category = await getCategorys();
       setCategorys(category?.data);
-      console.log('====================================');
+      console.log("====================================");
       console.log(product?.data?.colors?.[0].color);
-      console.log('====================================');
-      setColor(product?.data?.colors?.[0].color)
+      console.log("====================================");
+      setColor(product?.data?.colors?.[0].color);
       const products = await getProducts();
       setallProduct(products?.data);
     } catch (e) {
@@ -102,6 +103,7 @@ function Offer() {
     <>
       <ToastContainer />
       <div className="p-[7vw] md:bg-transparent bg-[#fff]">
+        <Goback />
         <div className="flex md:flex-row flex-col gap-[4vw] mb-[4vw]">
           <div className="md:w-[50%] w-[100%] gap-[1vw] flex md:flex-row flex-col">
             <div className="border md:border-gray-600 border-transparent bg-[#fff] flex items-center justify-center cursor-pointer rounded-[2vw] p-[1vw]">
@@ -113,19 +115,11 @@ function Offer() {
             </div>
           </div>
           <div>
-            {categorys?.map(
-              (item) =>
-                item?.id === product?.category && (
-                  <h1
-                    key={item?.id}
-                    className="m-bold md:text-[#006BC5] md:text-[3vw] text-[6vw] tracking-[.4vw] mb-[3vw]"
-                  >
-                    {item?.[`name_${currentLang}`]}
-                  </h1>
-                )
-            )}
-            <p className="md:text-[#006BC5] md:text-[1.7vw] text-[3.7vw] mb-[2vw]">
+            <h1 className="m-bold md:text-[#006BC5] md:text-[3vw] text-[6vw] tracking-[.4vw] mb-[3vw]">
               {product?.[`name_${currentLang}`]}
+            </h1>
+            <p className="md:text-[#006BC5] md:text-[1.7vw] text-[3.7vw] mb-[2vw]">
+              {product?.[`description_${currentLang}`]}
             </p>
             <p className="text-[#006BC5] md:text-[2.7vw] text-[5.7vw] mb-[2vw]">
               <CurrencyFormat
@@ -166,7 +160,7 @@ function Offer() {
                 onClick={() => setModal(true)}
                 className=" md:w-[40%] w-[100%] md:bg-gradient-to-b md:from-[#74B4FF] md:to-[#3C84CF] text-[#fff] md:text-[1.4vw] text-[5.4vw] capitalize p-[.5vw]  md:py-[1vw] py-[2vw] rounded-[1vw] bg-gradient-to-r from-[#0056A6] to-[#007BD4]"
               >
-                buy now
+                {language["buy"]}
               </button>
 
               <div className="card offer">
@@ -211,36 +205,36 @@ function Offer() {
           ></div>
           <div className="bg-white p-[2vw] rounded-[2vw] flex flex-col md:gap-[1vw] gap-[4vw] relative z-[88]">
             <p className="text-[#006BC5] md:text-[1.7vw] text-[5.7vw] text-center">
-              Buyurtma berish!
+              {language["buy"]}
             </p>
             <select
               className="border md:rounded-[.4vw] rounded-[1vw] outline-[#2379fa] md:p-[.4vw] p-[2vw] md:text-[1.4vw] text-[4.4vw]"
-              placeholder="Ismingizni kiriting"
+              placeholder={language["hudud"]}
               id=""
               onChange={(e) => setRegion(e.target.value)}
             >
-              <option value="">Viloyatingizni tanlang</option>
-              <option value="Toshkent shaxri">Toshkent shaxri</option>
-              <option value="Andijon viloyati">Andijon viloyati</option>
-              <option value="Buxoro viloyati">Buxoro viloyati</option>
-              <option value="Fargʻona viloyati">Fargʻona viloyati</option>
-              <option value="Jizzax viloyati">Jizzax viloyati</option>
-              <option value="Xorazm viloyati">Xorazm viloyati</option>
-              <option value="Namangan viloyati">Namangan viloyati</option>
-              <option value="Navoiy viloyati">Navoiy viloyati</option>
-              <option value="Qashqadaryo viloyati">Qashqadaryo viloyati</option>
-              <option value="Samarqand viloyati">Samarqand viloyati</option>
-              <option value="Sirdaryo viloyati">Sirdaryo viloyati</option>
-              <option value="Surxondaryo viloyati">Surxondaryo viloyati</option>
-              <option value="Toshkent viloyat">Toshkent viloyat</option>
+              <option value="">{language["hudud"]}</option>
+              <option value="Toshkent shaxri">Toshkent c.</option>
+              <option value="Andijon">Andijon</option>
+              <option value="Buxoro">Buxoro</option>
+              <option value="Fargʻona">Fargʻona</option>
+              <option value="Jizzax">Jizzax</option>
+              <option value="Xorazm">Xorazm</option>
+              <option value="Namangan">Namangan</option>
+              <option value="Navoiy">Navoiy</option>
+              <option value="Qashqadaryo">Qashqadaryo</option>
+              <option value="Samarqand">Samarqand</option>
+              <option value="Sirdaryo">Sirdaryo</option>
+              <option value="Surxondaryo">Surxondaryo</option>
+              <option value="Toshkent v.">Toshkent v.</option>
               <option value="Qoraqalpogʻiston Respublikasi">
-                Qoraqalpogʻiston Respublikasi
+                Qoraqalpogʻiston
               </option>
             </select>
             <input
               type="text"
               className="border md:rounded-[.4vw] rounded-[1vw] outline-[#2379fa] md:p-[.4vw] p-[2vw] md:text-[1.4vw] text-[4.4vw]"
-              placeholder="Ismingizni kiriting"
+              placeholder={language["ism"]}
               onChange={(e) => setName(e.target.value)}
             />
             <PhoneInput country={"uz"} onChange={(phone) => setInput(phone)} />
@@ -252,7 +246,7 @@ function Offer() {
               }  md:p-[.4vw] p-[1.2vw] md:rounded-[.4vw] rounded-[1vw] text-[#fff] md:text-[1.2vw] text-[4.2vw]`}
               onClick={postData}
             >
-              Yuborish
+              {language["send"]}
             </button>
           </div>
         </div>
