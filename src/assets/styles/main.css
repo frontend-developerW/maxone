@@ -171,7 +171,9 @@ body {
 }
 
 @media(max-width:768px) {
-
+    .scroller > div > div{
+        min-width: 42vw;
+    }
     .swiper-slide.swiper-slide-next,
     .swiper-slide.swiper-slide-prev {
         opacity: 0;

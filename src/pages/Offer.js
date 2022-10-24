@@ -37,9 +37,6 @@ function Offer() {
       setActiveSlide(product?.data?.colors?.[0].image1);
       const category = await getCategorys();
       setCategorys(category?.data);
-      console.log("====================================");
-      console.log(product?.data?.colors?.[0].color);
-      console.log("====================================");
       setColor(product?.data?.colors?.[0].color);
       const products = await getProducts();
       setallProduct(products?.data);
@@ -60,7 +57,6 @@ function Offer() {
     const all = localStorage["like"];
     if (all) {
       if (JSON.parse(all).includes(e)) {
-        console.log(JSON.parse(all).removeByValue(e));
         localStorage.setItem("like", `[${JSON.parse(all).removeByValue(e)}]`);
       } else {
         if (JSON.parse(all).length < 1) {
@@ -78,7 +74,6 @@ function Offer() {
   };
   useEffect(() => {
     getData();
-    console.log(id);
   }, [id]);
   async function postData() {
     toast("Loading....", { autoClose: 1000 });
@@ -184,7 +179,7 @@ function Offer() {
         <h1 className="m-bold text-[#006BC5] md:text-[3vw] text-[5vw] mb-[3vw] text-center mt-[5vw]">
           {language["n"]}
         </h1>
-        <div className="md:grid justify-between overflow-auto md:gap-[2vw] gap-[4vw] md:grid-cols-4 flex">
+        <div className="md:grid justify-between overflow-auto md:gap-[2vw] gap-[4vw] md:grid-cols-4 flex scroller">
           {allProduct.map(
             (item) =>
               item.category === product.category &&

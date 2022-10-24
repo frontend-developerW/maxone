@@ -53,7 +53,6 @@ function Navbar() {
   }, []);
 
   window.onwheel = function () {
-    console.log(window.scrollY);
     if (window.scrollY > window.innerHeight) {
       setActiveBottom(true);
     } else {
@@ -187,7 +186,10 @@ function Navbar() {
                       item[`name_${currentLang}`]
                         .toLocaleLowerCase()
                         .includes(searchValue.toLocaleLowerCase()) && (
-                        <Link to={'/offer/' + item?.id} onClick={()=>setSearchValue('')}>
+                        <Link
+                          to={"/offer/" + item?.id}
+                          onClick={() => setSearchValue("")}
+                        >
                           <div className="flex gap-[1vw] border-b p-[1vw]">
                             <img
                               src={item?.image}
@@ -218,7 +220,7 @@ function Navbar() {
           </div>
         </header>
       </div>
-      <div className="justify-center flex md:hidden  pt-[3vw] pb-[3vw] relative">
+      <div className="justify-center flex md:hidden  pt-[3vw] pb-[3vw] relative px-[3vw] gap-[2vw]">
         <div className="flex justify-between  items-center bg-[#3A88DA] rounded-[10vw] p-[2vw] w-[90vw] margin-auto gap-[3vw] px-[4vw]">
           <SearchMobile />
           <input
@@ -232,42 +234,55 @@ function Navbar() {
           />
           <Settings />
         </div>
+        <select
+          className="relative px-[2vw] rounded-[10vw] text-[#fff] bg-[#3A88DA] text-[4vw]"
+          onChange={changLang}
+          defaultValue={localStorage["lang"] || "uz"}
+          id="lang"
+        >
+          <option value="uz">O'z</option>
+          <option value="ru">Ру</option>
+          <option value="en">En</option>
+        </select>
         {searchValue.length > 2 && (
-              <div className="absolute w-[90vw] bg-[#fff] rounded-[1vw] left-[5vw] top-[16vw] max-h-[80vh] overflow-auto z-50">
-                <div className="grid justify-between p-[2vw] grid-cols-1 pt-0">
-                  {allProduct?.map(
-                    (item, i) =>
-                      item[`name_${currentLang}`]
-                        .toLocaleLowerCase()
-                        .includes(searchValue.toLocaleLowerCase()) && (
-                        <Link to={'/offer/' + item?.id} onClick={()=>setSearchValue('')}>
-                          <div className="flex gap-[1vw] border-b p-[1vw]">
-                            <img
-                              src={item?.image}
-                              className="w-[16vw] h-[16vw] object-contain"
-                              alt=""
-                            />
-                            <div className="flex flex-col">
-                              <p className="text-[3.6vw]">
-                                {item[`name_${currentLang}`]}
-                              </p>
-                              <p className="text-[3.6vw] text-[#004B99]">
-                                <CurrencyFormat
-                                  value={item?.price || "0"}
-                                  displayType={"text"}
-                                  thousandSeparator={true}
-                                  prefix={""}
-                                />{" "}
-                                so'm
-                              </p>
-                            </div>
-                          </div>
-                        </Link>
-                      )
-                  )}
-                </div>
-              </div>
-            )}
+          <div className="absolute w-[90vw] bg-[#fff] rounded-[1vw] left-[5vw] top-[16vw] max-h-[80vh] overflow-auto z-50">
+            <div className="grid justify-between p-[2vw] grid-cols-1 pt-0">
+              {allProduct?.map(
+                (item, i) =>
+                  item[`name_${currentLang}`]
+                    .toLocaleLowerCase()
+                    .includes(searchValue.toLocaleLowerCase()) && (
+                    <Link
+                      to={"/offer/" + item?.id}
+                      onClick={() => setSearchValue("")}
+                    >
+                      <div className="flex gap-[1vw] border-b p-[1vw]">
+                        <img
+                          src={item?.image}
+                          className="w-[16vw] h-[16vw] object-contain"
+                          alt=""
+                        />
+                        <div className="flex flex-col">
+                          <p className="text-[3.6vw]">
+                            {item[`name_${currentLang}`]}
+                          </p>
+                          <p className="text-[3.6vw] text-[#004B99]">
+                            <CurrencyFormat
+                              value={item?.price || "0"}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={""}
+                            />{" "}
+                            so'm
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="md:hidden flex items-center justify-center fixed h-[25vw] p-[4vw] rounded-t-[6vw] shadow-xl shadow-[black] bg-gradient-to-b from-[#C8E4FF] to-[#fff] z-50 bottom-0 w-full px-[7vw]">
@@ -296,7 +311,7 @@ function Navbar() {
             </button>
             <p className="text-[3vw] text-[#004B99]">LIKE</p>
           </div>
-          <div  className="relative w-[10vw]">
+          <div className="relative w-[10vw]">
             <img
               src={require("../assets/img/bar.png")}
               className="fixed left-[38.5vw] bottom-[12vw] w-[25vw] h-[25vw]"

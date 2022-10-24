@@ -8,7 +8,6 @@ function Brands() {
   async function getData() {
     try {
       const { data } = await getBrands(id);
-      console.log(data);
       setBrands(data);
     } catch (e) {
       console.log(e);

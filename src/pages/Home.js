@@ -116,7 +116,7 @@ function Home() {
           >
             <div className="flex flex-col items-center cursor-pointer hover:opacity-70">
               <img
-                src={`https://maxone.abba.uz${
+                src={`https://api.maxone.uz${
                   item?.image || "/files/111_1aBNoct.png"
                 }`}
                 className={
@@ -139,7 +139,7 @@ function Home() {
             <div className="flex flex-col items-center cursor-pointer hover:opacity-70">
               <img
                 src={`${
-                  item?.image || "https://maxone.abba.uz/files/111_1aBNoct.png"
+                  item?.image || "https://api.maxone.uz/files/111_1aBNoct.png"
                 }`}
                 className={
                   "md:w-[10vw] md:h-[10vw] w-[17vw] h-[17vw] object-cover rounded-[15vw]"

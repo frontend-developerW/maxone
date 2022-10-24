@@ -38,7 +38,6 @@ function Card({ data }) {
     const all = localStorage["like"];
     if (all) {
       if (JSON.parse(all).includes(e)) {
-        console.log(JSON.parse(all).removeByValue(e));
         localStorage.setItem("like", `[${JSON.parse(all).removeByValue(e)}]`);
       } else {
         if (JSON.parse(all).length < 1) {
@@ -55,16 +54,16 @@ function Card({ data }) {
     dispatch(setLikeCount(JSON.parse(localStorage["like"]).length));
   };
   return (
-    <div className="hover:shadow-xl cursor-pointer transition-[.5s] hover:translate-y-[-1.4vw] w-full md:p-[2vw] bg-[#fff] border md:rounded-[2vw] rounded-[3.4vw] p-[3vw] card md:min-w-0 min-w-[42vw]">
+    <div className="hover:shadow-xl cursor-pointer transition-[.5s] hover:translate-y-[-1.4vw] w-full md:p-[2vw] bg-[#fff] border md:rounded-[2vw] rounded-[3.4vw] p-[3vw] card md:min-w-0 ">
       <img
-        src={`${data?.image || "https://maxone.abba.uz/files/111_1aBNoct.png"}`}
+        src={`${data?.image || "https://api.maxone.uz/files/111_1aBNoct.png"}`}
         alt=""
         className="w-full"
       />
       <h1 className="h-bold md:text-[2vw] text-[3.3vw] uppercase overflow-ellipsis overflow-hidden mt-[1vw] whitespace-nowrap w-full text-[#006BC5]">
         {data?.[`name_${currentLang}`] || "Name"}
       </h1>
-      <p className="opacity-40 text-[3vw] md:text-[1.5vw] mb-[.4vw] overflow-ellipsis overflow-hidden">
+      <p className="opacity-40 text-[3vw] md:text-[1.5vw] whitespace-nowrap mb-[.4vw] overflow-ellipsis overflow-hidden">
       
         {data?.[`description_${currentLang}`] || "description"}
       </p>

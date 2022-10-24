@@ -78,6 +78,18 @@ function Products() {
               {language["f_3"]}
             </h1>
             <div className="flex flex-wrap md:gap-[1vw] gap-[3vw] mt-[1vw]">
+              <button
+                onClick={() => {
+                  setCategory("");
+                  window.innerWidth > 768 && setPage(8);
+                }}
+                className={` bg-[#fff] md:p-[.5vw] p-[2vw] md:px-[1vw] px-[5vw] rounded-[6vw] md:text-[.9vw] text-[4vw] ${
+                  (category === "" && "bg-[#004B99] text-[#ffffff]") ||
+                  "text-[#004B99] "
+                }`}
+              >
+                {language["alls"]}
+              </button>
               {categorys.map((item, i) => (
                 <button
                   onClick={() => {
@@ -120,12 +132,23 @@ function Products() {
               ))}
             </div>
           </div>
-
           <div className="flex flex-col md:mt-[2vw] mt-[6vw]">
             <h1 className="h-regular text-[#006BC5] md:text-[1.4vw] text-[5vw]">
               {language["y"]}
             </h1>
             <div className="grid grid-cols-2 md:gap-[1vw] gap-[3vw] mt-[1vw]">
+              <button
+                onClick={() => {
+                  setBrand("");
+                  window.innerWidth > 768 && setPage(8);
+                }}
+                className={` bg-[#fff] md:p-[.5vw] p-[2vw] md:px-[1vw] px-[5vw] rounded-[6vw] md:text-[.9vw] text-[4vw] ${
+                  (brand === "" && "bg-[#004B99] text-[#ffffff]") ||
+                  "text-[#004B99] "
+                }`}
+              >
+                {language["alls"]}
+              </button>
               {brands.map((item, i) => (
                 <button
                   onClick={() => {
@@ -217,6 +240,38 @@ function Products() {
                   item?.price > priceFrom &&
                   item?.price < priceTo && <Card data={item} key={i} />
               )}
+            {category === ""
+              ? products
+                  .slice(0, page)
+                  ?.map(
+                    (item, i) =>
+                      activeType?.id === item?.type &&
+                      brand === item?.brand &&
+                      item?.price > priceFrom &&
+                      item?.price < priceTo && <Card data={item} key={i} />
+                  )
+              : brand === ""
+              ? products
+                  .slice(0, page)
+                  ?.map(
+                    (item, i) =>
+                      activeType?.id === item?.type &&
+                      category === item?.category &&
+                      item?.price > priceFrom &&
+                      item?.price < priceTo && <Card data={item} key={i} />
+                  )
+              : null}
+
+            {brand === "" &&
+              category === "" &&
+              products
+                .slice(0, page)
+                ?.map(
+                  (item, i) =>
+                    activeType?.id === item?.type &&
+                    item?.price > priceFrom &&
+                    item?.price < priceTo && <Card data={item} key={i} />
+                )}
           </div>
         </div>
       </div>
