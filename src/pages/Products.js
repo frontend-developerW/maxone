@@ -220,7 +220,7 @@ function Products() {
           </div>
         </div>
         <div
-          className="absolute top-[5vw] right-[10vw]"
+          className="absolute top-[5.5vw] right-[42vw]"
           onClick={() => setFilterView(!filterView)}
         >
           <FilterWhite />

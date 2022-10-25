@@ -85,7 +85,7 @@ function Offer() {
         region: region
       });
       setModal(false);
-      toast.success(data?.status, {
+      toast.success(language["approve"], {
         progress: undefined
       });
     } catch (err) {
@@ -209,7 +209,7 @@ function Offer() {
               onChange={(e) => setRegion(e.target.value)}
             >
               <option value="">{language["hudud"]}</option>
-              <option value="Toshkent shaxri">Toshkent c.</option>
+              <option value="Toshkent shaxri">Toshkent sh.</option>
               <option value="Andijon">Andijon</option>
               <option value="Buxoro">Buxoro</option>
               <option value="Fargʻona">Fargʻona</option>
@@ -237,9 +237,9 @@ function Offer() {
               className={` ${
                 input.length > 5 && name.length > 3
                   ? "bg-[#2379fa]"
-                  : "bg-[#9c9c9c] "
+                  : "bg-[#70819c] "
               }  md:p-[.4vw] p-[1.2vw] md:rounded-[.4vw] rounded-[1vw] text-[#fff] md:text-[1.2vw] text-[4.2vw]`}
-              onClick={postData}
+              onClick={input.length > 5 && name.length > 3 ? postData : null}
             >
               {language["send"]}
             </button>

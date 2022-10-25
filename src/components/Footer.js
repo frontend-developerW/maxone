@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useLanguage } from "../redux/selectors";
 import { getCategorys, getTypes } from "../requests";
-import { FaceBookSvg, InstagramSvg, TwitterSvg } from "./Svgs";
+import { FaceBookSvg, InstagramSvg, TwitterSvg, YoutubeSvg } from "./Svgs";
 
 function Footer() {
   const [categorys, setCategorys] = useState([]);
@@ -40,6 +40,10 @@ function Footer() {
           <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5] hover:bg-[#043885] cursor-pointer transition-[.8s] hover:rotate-[360deg]">
             <TwitterSvg />
           </div>
+
+          <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5] hover:bg-[#043885] cursor-pointer transition-[.8s] hover:rotate-[360deg]">
+            <YoutubeSvg />
+          </div>
           <div className="md:w-[3vw] md:h-[3vw] w-[9vw] h-[9vw]  flex items-center justify-center rounded-[5vw] bg-[#396BB5] hover:bg-[#043885] cursor-pointer transition-[.8s] hover:rotate-[360deg]">
             <InstagramSvg />
           </div>
@@ -51,26 +55,26 @@ function Footer() {
             {language["f_name1"]}
           </h1>
         </li>
-        <li className="md:flex inline-block md:mr-0 mr-[5vw]">
+        <li className="md:flex md:mr-0 mr-[5vw]">
           <Link
             to="/about"
-            className="text-white md:text-[1vw] text-[3.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
+            className="text-white md:text-[1vw] text-[4.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
           >
             {language["f_1"]}
           </Link>
         </li>
-        <li className="md:flex inline-block md:mr-0 mr-[5vw]">
+        <li className="md:flex md:mr-0 mr-[5vw]">
           <Link
             to="/terms"
-            className="text-white md:text-[1vw] text-[3.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
+            className="text-white md:text-[1vw] text-[4.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
           >
             {language["f_2"]}
           </Link>
         </li>
-        <li className="md:flex inline-block md:mr-0 mr-[5vw]">
+        <li className="md:flex md:mr-0 mr-[5vw]">
           <a
             href="/#brands"
-            className="text-white md:text-[1vw] text-[3.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
+            className="text-white md:text-[1vw] text-[4.5vw] mt-[1.5vw] opacity-70 hover:opacity-100"
           >
             {language["f_3"]}
           </a>
@@ -84,7 +88,7 @@ function Footer() {
           </a>
         </li> */}
       </ul>
-      <ul>
+      <ul  className="md:block hidden">
         <li className=" md:mr-0 mr-[5vw] md:block hidden">
           <h1 className="text-white text-[1.5vw]  mt-[1.5vw]">
             {language["f_name2"]}

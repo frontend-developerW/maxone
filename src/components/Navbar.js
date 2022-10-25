@@ -63,7 +63,9 @@ function Navbar() {
   const changLang = (e) => {
     dispatch(setLanguage(e.target.value));
   };
-
+  const changLangMobile = (e) => {
+    dispatch(setLanguage(e));
+  };
   return (
     <>
       <div className="pt-[14vw] hidden md:block">
@@ -73,7 +75,7 @@ function Navbar() {
               <img
                 src={require("../assets/img/logo.png")}
                 alt="logo"
-                className="w-[8vw]"
+                className="w-[8vw] h-[6vw] object-contain"
               />
             </NavLink>
             <ul className="flex items-center gap-[5vw] justify-center">
@@ -234,7 +236,7 @@ function Navbar() {
           />
           <Settings />
         </div>
-        <select
+        {/* <select
           className="relative px-[2vw] rounded-[10vw] text-[#fff] bg-[#3A88DA] text-[4vw]"
           onChange={changLang}
           defaultValue={localStorage["lang"] || "uz"}
@@ -243,7 +245,39 @@ function Navbar() {
           <option value="uz">O'z</option>
           <option value="ru">Ру</option>
           <option value="en">En</option>
-        </select>
+        </select> */}
+        <div className="flex gap-2 items-center">
+          <div
+            className="p-2 text-[3vw] rounded-[6vw]"
+            style={{
+              backgroundColor: currentLang === "uz" ? "#3A88DA" : "transparent",
+              color: currentLang === "uz" ? "white" : "#3A88DA"
+            }}
+            onClick={() => changLangMobile("uz")}
+          >
+            O'z
+          </div>
+          <div
+            className="p-2 text-[3vw] rounded-[6vw]"
+            onClick={() => changLangMobile("ru")}
+            style={{
+              backgroundColor: currentLang === "ru" ? "#3A88DA" : "transparent",
+              color: currentLang === "ru" ? "white" : "#3A88DA"
+            }}
+          >
+            Руc
+          </div>
+          <div
+            className="p-2 text-[3vw] rounded-[6vw]"
+            onClick={() => changLangMobile("en")}
+            style={{
+              backgroundColor: currentLang === "en" ? "#3A88DA" : "transparent",
+              color: currentLang === "en" ? "white" : "#3A88DA"
+            }}
+          >
+            Eng
+          </div>
+        </div>
         {searchValue.length > 2 && (
           <div className="absolute w-[90vw] bg-[#fff] rounded-[1vw] left-[5vw] top-[16vw] max-h-[80vh] overflow-auto z-50">
             <div className="grid justify-between p-[2vw] grid-cols-1 pt-0">
@@ -290,7 +324,7 @@ function Navbar() {
           <Link to="/">
             <div className="flex flex-col items-center gap-[1vw]">
               <HomeSvg />
-              <p className="text-[3vw] text-[#004B99]">Home</p>
+              <p className="text-[3vw] text-[#004B99]">{language['home']}</p>
             </div>
           </Link>
           <div className="flex flex-col items-center gap-[1vw]">
@@ -309,24 +343,24 @@ function Navbar() {
                 {countLike}
               </div>
             </button>
-            <p className="text-[3vw] text-[#004B99]">LIKE</p>
+            <p className="text-[3vw] text-[#004B99]">{language['like']}</p>
           </div>
           <div className="relative w-[10vw]">
             <img
               src={require("../assets/img/bar.png")}
-              className="fixed left-[38.5vw] bottom-[12vw] w-[25vw] h-[25vw]"
+              className="fixed left-[38.5vw] bottom-[12vw] w-[25vw] h-[25vw] rounded-[40vw]"
             />
           </div>
           <a href="/#brands">
             <div className="flex flex-col items-center gap-[1vw]">
               <CategorySvg />
-              <p className="text-[3vw] text-[#004B99]"> {language["9"]}</p>
+              <p className="text-[3vw] text-[#004B99]"> {language['catalog']}</p>
             </div>
           </a>
           <a href="tel:+998 99 011 89 34">
             <div className="flex flex-col items-center gap-[1vw]">
               <PhoneSvg />
-              <p className="text-[3vw] text-[#004B99]">Call</p>
+              <p className="text-[3vw] text-[#004B99]">{language['call']}</p>
             </div>
           </a>
         </div>

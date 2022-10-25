@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { Cocie } from "../components/Svgs";
+import { Cocie, PhoneSvg } from "../components/Svgs";
 import { Link } from "react-router-dom";
 import {
   getBestProducts,
@@ -62,7 +62,7 @@ function Home() {
   }, []);
 
   let slides = sliders.map((slider) => (
-    <div className="mt-[8vw] mb-[5vw]">
+    <div className="md:mt-[8vw] mt-[14vw] mb-[5vw]">
       <div className="flex bg-gradient-to-tr  from-[#0074E7] via-[#004B99] to-[#0074E7] md:h-auto h-[35vw] md:w-[75vw] w-[90vw] m-auto p-[3vw] rounded-[2vw] relative min-h-[22vw]">
         <div className="flex flex-col">
           <h1 className="m-bold text-left text-[#ffffff] md:text-[3vw] text-[6vw] md:w-[100%] w-[60vw] ">
@@ -94,6 +94,14 @@ function Home() {
   };
   return (
     <div>
+      <a href="tel:+998 99 011 89 34" className="md:hidden">
+        <div className="absolute w-[60%] ml-[5%] flex flex-row  gap-[4vw] bg-[#003bfd1a] p-[2vw] rounded-[2vw] items-center justify-center cursor-pointer">
+          <PhoneSvg />
+          <p className="mt-[1vw] text-[#0066BE] text-[4.3vw]">
+            +998 99 011 89 34
+          </p>
+        </div>
+      </a>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         slidesPerView={1}
@@ -107,14 +115,17 @@ function Home() {
       <h1 className="m-bold md:mt-0 mt-[5vw] text-center text-[#006BC5] md:text-[3vw] text-[5vw]">
         {language["f_3"]}
       </h1>
-      <div className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] md:grid-cols-4 grid-cols-3" id="brands">
+      <div
+        className="p-[7vw] pt-[3vw] grid justify-between gap-[4vw] md:grid-cols-4 grid-cols-1"
+        id="brands"
+      >
         {categorys?.map((item, i) => (
           <Link
             to={"/brands/" + item?.id}
             key={i}
             onClick={() => localStorage.setItem("category", item?.id)}
           >
-            <div className="flex flex-col items-center cursor-pointer hover:opacity-70">
+            <div className="flex md:flex-col flex-row md:gap-[0px] gap-[4vw] md:bg-transparent bg-[#003bfd1a] md:p-0 p-[2vw] rounded-[2vw] items-center cursor-pointer hover:opacity-70">
               <img
                 src={`https://api.maxone.uz${
                   item?.image || "/files/111_1aBNoct.png"
@@ -124,7 +135,7 @@ function Home() {
                 }
                 alt=""
               />
-              <p className="mt-[1vw] text-[#0066BE] md:text-[1.3vw] text-[2.3vw]">
+              <p className="mt-[1vw] text-[#0066BE] md:text-[1.3vw] text-[4.3vw]">
                 {item?.[`name_${currentLang}`]}
               </p>
             </div>
@@ -136,7 +147,7 @@ function Home() {
             key={i}
             onClick={() => localStorage.setItem("type", item?.id)}
           >
-            <div className="flex flex-col items-center cursor-pointer hover:opacity-70">
+            <div className="flex md:flex-col flex-row md:gap-[0px] gap-[4vw] md:bg-transparent bg-[#003bfd1a] md:p-0 p-[2vw] rounded-[2vw] items-center cursor-pointer hover:opacity-70">
               <img
                 src={`${
                   item?.image || "https://api.maxone.uz/files/111_1aBNoct.png"
@@ -146,7 +157,7 @@ function Home() {
                 }
                 alt=""
               />
-              <p className="mt-[1vw] text-[#0066BE] md:text-[1.3vw] text-[2.3vw]">
+              <p className="mt-[1vw] text-[#0066BE] md:text-[1.3vw] text-[4.3vw]">
                 {item?.[`name_${currentLang}`]}
               </p>
             </div>
