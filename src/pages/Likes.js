@@ -41,7 +41,7 @@ function Likes() {
           )}
         {JSON.parse(localStorage["like"] ?? [" "]).length < 1 && (
           <h1 className="m-regular text-[#006BC5] md:text-[3vw] mb-[3vw]">
-            Yoqtirilgan maxsulotlar mavjud emas
+            {language['likesnot']}
           </h1>
         )}
       </div>

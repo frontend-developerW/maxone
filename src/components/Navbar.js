@@ -209,7 +209,7 @@ function Navbar() {
                                   thousandSeparator={true}
                                   prefix={""}
                                 />{" "}
-                                so'm
+                               {language['som']}
                               </p>
                             </div>
                           </div>
@@ -307,7 +307,7 @@ function Navbar() {
                               thousandSeparator={true}
                               prefix={""}
                             />{" "}
-                            so'm
+                            {language['som']}
                           </p>
                         </div>
                       </div>

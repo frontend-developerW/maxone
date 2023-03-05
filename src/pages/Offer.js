@@ -12,19 +12,24 @@ import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Goback from "../components/Goback";
-
+import { useForm } from "react-hook-form";
 function Offer() {
   const [modal, setModal] = useState(false);
   const [product, setProduct] = useState({});
   const [allProduct, setallProduct] = useState([]);
   const [ActiveSlide, setActiveSlide] = useState("");
   const [input, setInput] = useState("");
-  const [region, setRegion] = useState("");
   const [name, setName] = useState("");
   const [color, setColor] = useState("red");
   const [categorys, setCategorys] = useState([]);
   const { id } = useParams();
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm();
   const [liked, setLiked] = useState(
     (localStorage["like"] &&
       JSON.parse(localStorage["like"]).includes(product?.id)) ||
@@ -75,14 +80,15 @@ function Offer() {
   useEffect(() => {
     getData();
   }, [id]);
-  async function postData() {
+  async function postData(inc) {
     toast("Loading....", { autoClose: 1000 });
     try {
       const { data } = await postLeads({
         product: product?.id,
-        customer_name: name,
+        customer_name: inc.name,
         phone: input,
-        region: region
+        region: inc.region,
+        color: color
       });
       setModal(false);
       toast.success(language["approve"], {
@@ -123,7 +129,7 @@ function Offer() {
                 thousandSeparator={true}
                 prefix={""}
               />{" "}
-              so'm
+              {language['som']}
             </p>
             <p className="md:text-[#006BC5] md:text-[1.7vw] text-[3.7vw] mb-[2vw]">
               {language["color"]}
@@ -133,19 +139,19 @@ function Offer() {
                 <div
                   key={i}
                   onClick={() => {
-                    setColor(item.color);
+                    setColor(item?.color_en);
                     setActiveSlide(item?.image1);
                   }}
                   className={`md:p-[1vw] p-[2vw] bg-[#fff] flex items-center border border-[#E3E3E3] md:rounded-[1vw] rounded-[2vw] md:gap-[.5vw] gap-[2.5vw] ${
-                    item.color === color && "border-[#868686]"
+                    item?.color_en === color && "border-[#868686]"
                   } cursor-pointer`}
                 >
                   <button
                     className={`md:w-[1.5vw] md:h-[1.5vw] w-[4.5vw] h-[4.5vw] rounded-[8vw]`}
-                    style={{ backgroundColor: item.color }}
+                    style={{ backgroundColor: item?.color_en }}
                   />
                   <p className="text-[#000000] h-bold md:text-[1vw] text-[3vw]">
-                    {item.color}
+                    {item?.[`color_${currentLang}`]}
                   </p>
                 </div>
               ))}
@@ -198,15 +204,24 @@ function Offer() {
             className="absolute w-[100vw] h-[100vh]"
             onClick={() => setModal(false)}
           ></div>
-          <div className="bg-white p-[2vw] rounded-[2vw] flex flex-col md:gap-[1vw] gap-[4vw] relative z-[88]">
+          <form
+            onSubmit={handleSubmit(postData)}
+            className="bg-white p-[2vw] rounded-[2vw] flex flex-col md:gap-[1vw] gap-[4vw] relative z-[88]"
+          >
             <p className="text-[#006BC5] md:text-[1.7vw] text-[5.7vw] text-center">
               {language["buy"]}
             </p>
             <select
               className="border md:rounded-[.4vw] rounded-[1vw] outline-[#2379fa] md:p-[.4vw] p-[2vw] md:text-[1.4vw] text-[4.4vw]"
+              style={
+                errors.region && {
+                  borderColor: "#ff3131",
+                  outlineColor: "#ff3131"
+                }
+              }
               placeholder={language["hudud"]}
               id=""
-              onChange={(e) => setRegion(e.target.value)}
+              {...register("region", { required: true })}
             >
               <option value="">{language["hudud"]}</option>
               <option value="Toshkent shaxri">Toshkent sh.</option>
@@ -226,24 +241,40 @@ function Offer() {
                 Qoraqalpogʻiston
               </option>
             </select>
+            {errors.region && (
+              <span className="md:text-[.8vw] text-[#ff3131] leading-[.2vw] relative top-[-.5vw]">
+                This field is required
+              </span>
+            )}
             <input
               type="text"
               className="border md:rounded-[.4vw] rounded-[1vw] outline-[#2379fa] md:p-[.4vw] p-[2vw] md:text-[1.4vw] text-[4.4vw]"
               placeholder={language["ism"]}
               onChange={(e) => setName(e.target.value)}
+              {...register("name", { required: true })}
+              style={
+                errors.name && {
+                  borderColor: "#ff3131",
+                  outlineColor: "#ff3131"
+                }
+              }
             />
+            {errors.name && (
+              <span className="md:text-[.8vw] text-[#ff3131] leading-[.2vw] relative top-[-.5vw]">
+                This field is required
+              </span>
+            )}
             <PhoneInput country={"uz"} onChange={(phone) => setInput(phone)} />
             <button
-              className={` ${
-                input.length > 5 && name.length > 3
-                  ? "bg-[#2379fa]"
-                  : "bg-[#70819c] "
-              }  md:p-[.4vw] p-[1.2vw] md:rounded-[.4vw] rounded-[1vw] text-[#fff] md:text-[1.2vw] text-[4.2vw]`}
-              onClick={input.length > 5 && name.length > 3 ? postData : null}
+              className={`
+                  bg-[#2379fa]
+                   md:p-[.4vw] p-[1.2vw] md:rounded-[.4vw] rounded-[1vw] text-[#fff] md:text-[1.2vw] text-[4.2vw]`}
+              type="submit"
+              // onClick={input.length > 5 && name.length > 3 ? postData : null}
             >
               {language["send"]}
             </button>
-          </div>
+          </form>
         </div>
       )}
     </>

@@ -74,7 +74,7 @@ function Card({ data }) {
           thousandSeparator={true}
           prefix={""}
         />
-        so‘m
+        {" "} {language['som']}
       </p>
       <div className="flex items-center justify-between">
         <Link to={"/offer/" + data?.id} className="w-[70%] ">

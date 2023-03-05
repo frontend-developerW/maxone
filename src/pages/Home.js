@@ -95,12 +95,15 @@ function Home() {
   return (
     <div>
       <a href="tel:+998 99 011 89 34" className="md:hidden">
-        <div className="absolute w-[60%] ml-[5%] flex flex-row  gap-[4vw] bg-[#003bfd1a] p-[2vw] rounded-[2vw] items-center justify-center cursor-pointer">
+        <a
+          href="tel:+998 99 011 89 34"
+          className="absolute w-[60%] ml-[5%] flex flex-row  gap-[4vw] bg-[#003bfd1a] p-[2vw] rounded-[2vw] items-center justify-center cursor-pointer z-[90]"
+        >
           <PhoneSvg />
           <p className="mt-[1vw] text-[#0066BE] text-[4.3vw]">
             +998 99 011 89 34
           </p>
-        </div>
+        </a>
       </a>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -183,7 +186,7 @@ function Home() {
         expires={150}
       >
         <p className="n-regular md:text-[2vw] text-[4vw] text-[#004B99] ">
-          This website use cookies. Learn moree{" "}
+          {language["cookies"]}
         </p>
       </CookieConsent>
       <div className="px-[12vw] py-[5vw] relative">
@@ -192,7 +195,7 @@ function Home() {
         </h1>
         <div className="md:absolute p-[.5vw] items-center px-[2vw] rounded-[1vw] bg-[#8cc5ff81] right-[7vw] top-[5vw] flex flex-col md:w-auto w-[35vw] m-auto">
           <p className="text-[#006BC5] md:text-[1vw] text-[3vw]">
-            Oxirgi yangilanish
+            {language["latest"]}
           </p>
           <b className="text-[#006BC5] md:text-[1vw] text-[3vw]">
             {getPreviousMonday()}
